@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+sudo apt-get install -y build-essential git cmake cmake-qt-gui libboost-all-dev libpython2.7-dev lua5.1 liblua5.1-0-dev openjdk-8-jdk swig xsdcxx libxerces-c-dev doxygen xsltproc ffmpeg python-tk python-imaging-tk
+
+echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
+         
+sudo update-ca-certificates -f
+
+# Fortran install doesn't fill in all of the necessary sym links
+sudo apt-get install libgfortran3
+sudo ln -sf libgfortran.so.3 /usr/lib/x86_64-linux-gnu/libgfortran.so
+
+# Install Torch (step 4)
+git clone git@github.com:torch/distro.git ~/torch --recursive
+cd ~/torch 
+bash install-deps
+./install.sh
+
+# Install Mono (Step 5)
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+sudo apt-get update
+sudo apt-get install -y mono-complete mono-devel referenceassemblies-pcl
+
+# Install Luabind
+
+
+git clone https://github.com/rpavlik/luabind.git ~/rpavlik-luabind
+cd ~/rpavlik-luabind
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+#On Debian 7 only:
+#cmake -DBoost_INCLUDE_DIR=/home/$USER/boost/boost_1_60_0/include -DCMAKE_BUILD_TYPE=Release ..
+make
+# ctest if you want and ensure that 19 and 28 fail. why didn't msft say which ones fail?
+# maybe make an issue for the malmo team:
+#In your [Linux build instructions](https://github.com/Microsoft/malmo/blob/master/doc/build_linux.md) you state, "A few of the tests fail currently but this doesn't seem to affect us." Could you please specify which tests fail? This will help users identify whether their failures are expected or could potentially cause problems that your team isn't experiencing.
+sudo make install
+
+# Build Malmo
+wget https://raw.githubusercontent.com/bitfehler/xs3p/1b71310dd1e8b9e4087cf6120856c5f701bd336b/xs3p.xsl -P ~/malmo/Schemas
+export "export MALMO_XSD_PATH=~/malmo/Schemas" >> ~/.bashrc
+source ~/.bashrc
+cd ~/malmo
+mkdir -p build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Debug ..
