@@ -2,7 +2,12 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-sudo apt-get install -y build-essential git cmake cmake-qt-gui libboost-all-dev libpython2.7-dev lua5.1 liblua5.1-0-dev openjdk-8-jdk swig xsdcxx libxerces-c-dev doxygen xsltproc ffmpeg python-tk python-imaging-tk
+sudo apt-get install -y build-essential git cmake cmake-qt-gui libboost-all-dev libpython2.7-dev lua5.1 liblua5.1-0-dev openjdk-8-jdk swig xsdcxx libxerces-c-dev xsltproc ffmpeg python-tk python-imaging-tk
+
+# install latest doxygen binary
+wget -N wget -N http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.12.linux.bin.tar.gz
+tar zxvf doxygen-*
+sudo cp doxygen-*/bin/doxygen /usr/local/bin/
 
 echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
          
