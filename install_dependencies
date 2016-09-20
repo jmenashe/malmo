@@ -49,7 +49,8 @@ make
 sudo make install
 
 # Build Malmo
-wget https://raw.githubusercontent.com/bitfehler/xs3p/1b71310dd1e8b9e4087cf6120856c5f701bd336b/xs3p.xsl -P ~/malmo/Schemas
+# i put this into CMakeLists but for portability it should be in this script instead.
+#wget https://raw.githubusercontent.com/bitfehler/xs3p/1b71310dd1e8b9e4087cf6120856c5f701bd336b/xs3p.xsl -P ~/malmo/Schemas
 export "export MALMO_XSD_PATH=~/malmo/Schemas" >> ~/.bashrc
 source ~/.bashrc
 cd ~/malmo

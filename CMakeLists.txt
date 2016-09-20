@@ -94,6 +94,12 @@ else()
   find_package( Threads REQUIRED )
 endif()
 
+# Get the xs3p XSL 
+SET(XS3P "${CMAKE_CURRENT_LIST_DIR}/Schemas/xs3p.xsl")
+IF(NOT EXISTS ${XS3P})
+  GET_FILENAME_COMPONENT(XS3P_DIR "${XS3P}" DIRECTORY) 
+  EXECUTE_PROCESS(COMMAND tar zxvf ${XS3P}.tar.gz -C "${XS3P_DIR}")
+ENDIF(NOT EXISTS ${XS3P})
 # suggested install paths - see readme.md
 if( WIN32)
   set( XSD_ROOT "C:/Program Files (x86)/CodeSynthesis XSD 4.0" )
