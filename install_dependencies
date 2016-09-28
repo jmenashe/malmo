@@ -2,14 +2,15 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-sudo apt-get install -y build-essential git cmake cmake-qt-gui libboost-all-dev libpython2.7-dev lua5.1 liblua5.1-0-dev openjdk-8-jdk swig xsdcxx libxerces-c-dev xsltproc ffmpeg python-tk python-imaging-tk
+sudo apt-get install -y build-essential git libboost-all-dev libpython2.7-dev lua5.1 liblua5.1-0-dev openjdk-7-jdk swig xsdcxx libxerces-c-dev xsltproc libav-tools python-tk python-imaging-tk
 
 # install latest doxygen binary
 wget -N wget -N http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.12.linux.bin.tar.gz
 tar zxvf doxygen-*
 sudo cp doxygen-*/bin/doxygen /usr/local/bin/
+rm -rf doxygen-1.8.12*
 
-echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
+echo "export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/" >> ~/.bashrc
          
 sudo update-ca-certificates -f
 
@@ -51,9 +52,11 @@ sudo make install
 # Build Malmo
 # i put this into CMakeLists but for portability it should be in this script instead.
 #wget https://raw.githubusercontent.com/bitfehler/xs3p/1b71310dd1e8b9e4087cf6120856c5f701bd336b/xs3p.xsl -P ~/malmo/Schemas
-export "export MALMO_XSD_PATH=~/malmo/Schemas" >> ~/.bashrc
+echo "export MALMO_XSD_PATH=~/malmo/Schemas" >> ~/.bashrc
 source ~/.bashrc
 cd ~/malmo
 mkdir -p build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Debug ..
+make
+echo "export PYTHONPATH=$HOME/malmo/build/Malmo/src/PythonWrapper" >> ~/.bashrc
