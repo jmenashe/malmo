@@ -215,6 +215,6 @@ Schemas/xs3p.xsl
 Minecraft/run/config/malmomodCLIENT.cfg
 Minecraft/Minecraft_Client.launch
 
-*.swp
+*.sw[op]
 Minecraft/.minecraft*
 Malmo/samples/CSharp_examples/RunMission.csproj
