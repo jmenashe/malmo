@@ -209,6 +209,7 @@ ModelManifest.xml
 
 # Python
 *.pyc
+*.pyo
 
 # Thing specific to Project Malmo
 Schemas/xs3p.xsl
